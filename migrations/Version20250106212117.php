@@ -12,7 +12,7 @@ final class Version20250106212117 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql(<<<sql
-            CREATE TABLE categories (
+            CREATE TABLE category (
                 id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
                 name VARCHAR(255) NOT NULL
             )
@@ -29,14 +29,14 @@ final class Version20250106212117 extends AbstractMigration
         sql);
         $this->addSql(<<<sql
             ALTER TABLE item
-                ADD CONSTRAINT fk_item_category_id_category_id FOREIGN KEY (category_id) REFERENCES categories (id)
+                ADD CONSTRAINT fk_item_category_id_category_id FOREIGN KEY (category_id) REFERENCES category (id)
         sql);
     }
 
     public function down(Schema $schema): void
     {
         $this->addSql('ALTER TABLE item DROP FOREIGN KEY fk_item_category_id_category_id');
-        $this->addSql('DROP TABLE categories');
+        $this->addSql('DROP TABLE category');
         $this->addSql('DROP TABLE item');
     }
 }
