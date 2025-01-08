@@ -1,0 +1,37 @@
+services:
+  nginx:
+    image: nginx:1-alpine
+    volumes:
+      - ./config/services/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8080:80
+    networks:
+      bestand:
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html/
+    networks:
+      bestand:
+
+  database:
+    image: mysql:8-debian
+    environment:
+      MYSQL_USER: ${DB_USER:-bestand}
+      MYSQL_PASSWORD: ${DB_PASS:-bestand}
+      MYSQL_DATABASE: ${DB_NAME:-bestand}
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+    ports:
+      - 33066:3306
+    volumes:
+      - ./var/db/:/var/lib/postgresql/data
+    networks:
+      bestand:
+
+networks:
+  bestand:

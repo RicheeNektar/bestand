@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-3">
+        <form method="post">
+            <div class="col col-3 mb-3">
+                <div class="input-group">
+                    <input
+                        class="form-control"
+                        name="name"
+                        placeholder="Kategorie"
+                    />
+                    <button class="btn btn-primary" type="submit" name="add" value="1">
+                        <i class="bi bi-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <ul class="list-group">
+                {% for category in categories %}
+                    <li class="list-group-item ">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                {{ category.name }}
+                                {% if category.referenced %}
+                                    <span class="badge bg-warning text-bg-warning">
+                                        Noch in Verwendung
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="col-auto">
+                                <button
+                                    class="btn btn-danger float-end"
+                                    type="submit"
+                                    name="delete"
+                                    value="{{ category.id }}"
+                                    {% if category.referenced %}
+                                        disabled
+                                    {% endif %}
+                                >
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </form>
+    </div>
+{% endblock %}

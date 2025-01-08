@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-3">
+        <form class="col">
+            <div class="input-group mb-3">
+                <input
+                    name="query"
+                    class="form-control"
+                    placeholder="Suchen.."
+                    value="{{ query }}"
+                />
+                <select name="orderBy" class="form-select">
+                    {% for sort in enum_cases("\\App\\Enum\\ItemSortEnum") %}
+                        <option
+                            value="{{ sort.value }}"
+                            {% if sort.value == orderBy.value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ sort.name | trans }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <select name="orderByDir" class="form-select">
+                    {% for order in enum_cases("\\App\\Enum\\SortOrderEnum") %}
+                        <option
+                            value="{{ order.value }}"
+                            {% if order.value == orderByDir.value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ order.name | trans }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Mouser-Nr.</th>
+                        <th scope="col">Kategorie</th>
+                        <th scope="col">Bauart</th>
+                        <th scope="col">Bestand</th>
+                        <th scope="col">Einzelpreis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>
+                                <img width="64px" height="64px" src="{{ item.image }}" alt="product image" />
+                            </td>
+                            <td>
+                                <form action="https://www.mouser.de/c/" target="_blank">
+                                    <button class="btn btn-primary" type="submit" name="q" value="{{ item.number }}">
+                                        {{ item.number }}
+                                        <i class="ms-2 bi bi-box-arrow-up-right"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            <td>{{ item.category.name }}</td>
+                            <td>{{ item.size }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+{% endblock %}

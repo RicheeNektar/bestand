@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <template id="row">
+        <tr>
+            <td>
+                <input name="image[]" type="url" class="form-control" />
+            </td>
+            <td>
+                <input name="number[]" class="form-control" />
+            </td>
+            <td>
+                <select class="form-select" name="category[]">
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td>
+                <input name="size[]" class="form-control" />
+            </td>
+            <td>
+                <input name="quantity[]" type="number" class="form-control" x-editable="yes" />
+            </td>
+            <td>
+                <input name="price[]" type="number" step="any" class="form-control" />
+            </td>
+            <td>
+                <button
+                    class="btn btn-danger"
+                    type="button"
+                    onclick="this.parentNode.parentNode.remove()"
+                >
+                    <i class="bi bi-bag-x"></i>
+                </button>
+            </td>
+        </tr>
+    </template>
+
+    <div class="container mt-3">
+        {% if e is not null %}
+            <div class="alert alert-danger">
+                <p>{{ e.message }}</p>
+                <p>{{ e.file }}:{{ e.line }}</p>
+            </div>
+        {% endif %}
+        <form method="post">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Bild URL</th>
+                        <th scope="col">Mouser-Nr.</th>
+                        <th scope="col">Kategorie</th>
+                        <th scope="col">Bauart</th>
+                        <th scope="col">Bestand +/-</th>
+                        <th scope="col">Einzelpreis</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="list"></tbody>
+            </table>
+            <div class="btn-group">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-floppy2"></i>
+                </button>
+                <button class="btn btn-secondary" type="button" onclick="addItemToList()">
+                    <i class="bi bi-bag-plus"></i>
+                </button>
+            </div>
+            <div class="float-end">
+                <a class="btn btn-primary" href="{{ url('categories.manage') }}">
+                    Kategorien verwalten
+                </a>
+            </div>
+        </form>
+    </div>
+    <script>
+        const template = document.getElementById('row');
+        const list = document.getElementById('list');
+
+        const items = JSON.parse('{{ data|json_encode|raw }}');
+
+        {% verbatim %}
+        function addItemToList() {
+            list.appendChild(template.content.cloneNode(true));
+        }
+
+        if (items.length !== 0) {
+            items.forEach((item) => {
+                const t = template.content.cloneNode(true);
+
+                Object.keys(item)
+                    .map(key => [key, t.querySelector(`input[name="${key}[]"]`)])
+                    .filter(([ignored, v]) => v)
+                    .forEach(([key, input]) => {
+                        if (input.getAttribute('x-editable') !== 'yes') {
+                            input.value = item[key];
+                            input.readOnly = true;
+                        }
+                    });
+
+                const categoryInput = document.createElement('input');
+                categoryInput.type = 'hidden';
+                categoryInput.name = 'category[]';
+                categoryInput.value = item.category.id;
+
+                const category = t.querySelector('select[name="category[]"]');
+                category.querySelector(`option[value="${item.category.id}"]`).selected = true;
+                category.disabled = true;
+
+                list.appendChild(t);
+            });
+        } else {
+            addItemToList();
+        }
+        {% endverbatim %}
+    </script>
+{% endblock %}
