@@ -56,7 +56,12 @@
                 {% for item in items %}
                     <tr>
                         <td>
-                            <img width="64px" height="64px" src="{{ item.image }}" alt="product image" />
+                            <img
+                                width="64px"
+                                height="64px"
+                                src="data:{{ item.imageType }};base64,{{ item.image }}"
+                                alt="product image"
+                            />
                         </td>
                         <td>{{ item.name }}</td>
                         <td>

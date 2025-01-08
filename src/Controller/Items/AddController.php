@@ -7,6 +7,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,32 +27,34 @@ final class AddController extends AbstractController
         if ($request->isMethod(Request::METHOD_POST)) {
             $data = $request->request->all();
 
-            $rows = count($data['number'] ?? []);
-            $toDelete = count($data['delete'] ?? []);
-
             $this->em->beginTransaction();
 
-            for ($i = 0; $i < $toDelete; $i++) {
-                if ($item = $this->itemRepository->find($data['delete'][$i])) {
+            foreach ($data['delete'] ?? [] as $id) {
+                if ($item = $this->itemRepository->find($id)) {
                     $this->em->remove($item);
                 }
             }
 
-            for ($i = 0; $i < $rows; $i++) {
-                $item = $this->itemRepository->findOneBy(['number' => $data['number'][$i]]);
+            $images = $request->files->get('image');
+
+            foreach ($data['quantity'] ?? [] as $id => $quantity) {
+                $item = $this->itemRepository->find($id);
 
                 if ($item) {
-                    $item->quantity += (int) $data['quantity'][$i];
+                    $item->quantity += (int) $quantity;
                 } else {
+                    /** @var File $file */
+                    $file = $images[$id];
                     $this->em->persist(
                         new Item(
-                            number: $data['number'][$i],
-                            image: $data['image'][$i],
-                            quantity: (int) $data['quantity'][$i],
-                            category: $this->categoryRepository->find($data['category'][$i]),
-                            size: $data['size'][$i],
-                            price: (float) $data['price'][$i],
-                            name: $data['name'][$i],
+                            number: $data['number'][$id],
+                            image: base64_encode($file->getContent()),
+                            quantity: (int) $quantity,
+                            category: $this->categoryRepository->find($data['category'][$id]),
+                            size: $data['size'][$id],
+                            price: (float) $data['price'][$id],
+                            name: $data['name'][$id],
+                            imageType: $file->getMimeType(),
                         )
                     );
                 }
@@ -67,8 +70,7 @@ final class AddController extends AbstractController
             'items/add.html.twig',
             [
                 'categories' => $this->categoryRepository->findAll(),
-                'data' => $this->itemRepository->findAll(),
-                'e' => $e ?? null,
+                'items' => $this->itemRepository->findAll(),
             ],
         );
     }

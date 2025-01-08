@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
@@ -17,7 +18,7 @@ class Item
         public ?int $id = null,
         #[ORM\Column(length: 32)]
         public ?string $number = null,
-        #[ORM\Column(length: 512)]
+        #[ORM\Column(length: 2 ** 24 - 1)]
         public string $image = '',
         #[ORM\Column]
         public int $quantity = 0,
@@ -32,6 +33,8 @@ class Item
         public float $price = 0,
         #[ORM\Column(length: 255)]
         public ?string $name = null,
+        #[ORM\Column(length: 255)]
+        public ?string $imageType = null,
     ) {
     }
 

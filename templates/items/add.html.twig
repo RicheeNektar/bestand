@@ -4,29 +4,29 @@
     <template id="row">
         <tr>
             <td>
-                <input name="image[]" type="url" class="form-control" />
+                <input name="image[]" type="file" class="form-control" accept="image/*" maxlength="{{ 2**24-1 }}" required />
             </td>
             <td>
-                <input name="name[]" class="form-control" />
+                <input name="name[]" class="form-control" required />
             </td>
             <td>
-                <input name="number[]" class="form-control" />
+                <input name="number[]" class="form-control" required />
             </td>
             <td>
-                <select class="form-select" name="category[]">
+                <select class="form-select" name="category[]" required >
                     {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.name }}</option>
                     {% endfor %}
                 </select>
             </td>
             <td>
-                <input name="size[]" class="form-control" />
+                <input name="size[]" class="form-control" required />
             </td>
             <td>
-                <input name="quantity[]" type="number" class="form-control" x-editable="yes" />
+                <input name="quantity[]" type="number" class="form-control" required />
             </td>
             <td>
-                <input name="price[]" type="number" step="any" class="form-control" />
+                <input name="price[]" type="number" step="any" class="form-control" required />
             </td>
             <td>
                 <button
@@ -34,7 +34,7 @@
                     type="button"
                     onclick="prepareRemoval(this)"
                 >
-                    <input name="delete[]" type="hidden" disabled />
+                    <input name="delete[]" type="hidden" value="yes" disabled />
                     <i class="bi bi-bag-x"></i>
                 </button>
             </td>
@@ -42,13 +42,7 @@
     </template>
 
     <div class="container mt-3">
-        {% if e is not null %}
-            <div class="alert alert-danger">
-                <p>{{ e.message }}</p>
-                <p>{{ e.file }}:{{ e.line }}</p>
-            </div>
-        {% endif %}
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <table class="table table-striped align-middle">
                 <thead>
                     <tr>
@@ -62,7 +56,45 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody id="list"></tbody>
+                <tbody id="list">
+                    {% for item in items %}
+                        <tr>
+                            <td>
+                                <img
+                                    width="64px"
+                                    height="64px"
+                                    src="data:{{ item.imageType }};base64,{{ item.image }}"
+                                    alt="product image"
+                                />
+                            </td>
+                            <td>{{ item.name }}</td>
+                            <td>
+                                <form action="https://www.mouser.de/c/" target="_blank">
+                                    <button class="btn btn-primary" type="submit" name="q" value="{{ item.number }}">
+                                        {{ item.number }}
+                                        <i class="ms-2 bi bi-box-arrow-up-right"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            <td>{{ item.category.name }}</td>
+                            <td>{{ item.size }}</td>
+                            <td>
+                                <input name="quantity[{{ item.id }}]" type="number" class="form-control" required />
+                            </td>
+                            <td>{{ item.price }}</td>
+                            <td>
+                                <button
+                                        class="btn btn-danger"
+                                        type="button"
+                                        onclick="prepareRemoval(this)"
+                                >
+                                    <input name="delete[]" type="hidden" value="yes" disabled />
+                                    <i class="bi bi-bag-x"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
             </table>
             <div class="btn-group">
                 <button class="btn btn-primary" type="submit">
@@ -83,49 +115,28 @@
         const template = document.getElementById('row');
         const list = document.getElementById('list');
 
-        const items = JSON.parse('{{ data|json_encode|raw }}');
-
         {% verbatim %}
         function addItemToList() {
-            list.appendChild(template.content.cloneNode(true));
+            const id = `tmp-${new Date().getTime()}`;
+            const t = template.content.cloneNode(true);
+            t.querySelectorAll('input').forEach(input => input.name = input.name.replace(/(\w+)\[\]/, `$1[${id}]`));
+            t.querySelectorAll('select').forEach(input => input.name = input.name.replace(/(\w+)\[\]/, `$1[${id}]`));
+            list.appendChild(t);
         }
 
         function prepareRemoval(bt) {
-            bt.parentNode.parentNode.style.display = 'none';
-            bt.querySelector('input').disabled = false;
-        }
-
-        if (items.length !== 0) {
-            items.forEach((item) => {
-                const t = template.content.cloneNode(true);
-
-                Object.keys(item)
-                    .map(key => [key, t.querySelector(`input[name="${key}[]"]`)])
-                    .filter(([ignored, v]) => v)
-                    .forEach(([key, input]) => {
-                        if (input.getAttribute('x-editable') !== 'yes') {
-                            input.value = item[key];
-                            input.readOnly = true;
-                        }
-                    });
-
-                const deleteInput = t.querySelector('input[name="delete[]"]');
-                deleteInput.value = item.id;
-
-                const categoryInput = document.createElement('input');
-                categoryInput.type = 'hidden';
-                categoryInput.name = 'category[]';
-                categoryInput.value = item.category.id;
-
-                const category = t.querySelector('select[name="category[]"]');
-                category.querySelector(`option[value="${item.category.id}"]`).selected = true;
-                category.disabled = true;
-
-                list.appendChild(t);
-            });
-        } else {
-            addItemToList();
+            const deleteInput = bt.querySelector('input');
+            if (deleteInput.name.match(/\[tmp-\d+\]/)) {
+                bt.parentNode.parentNode.remove();
+            } else {
+                bt.parentNode.parentNode.style.display = 'none';
+                deleteInput.disabled = false;
+            }
         }
         {% endverbatim %}
+
+        {% if items|length == 0 %}
+            addItemToList();
+        {% endif %}
     </script>
 {% endblock %}

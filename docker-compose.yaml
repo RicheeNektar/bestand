@@ -16,6 +16,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www/html/
+      - ./config/services/php.ini:/usr/local/etc/php/php.ini
     networks:
       bestand:
 
