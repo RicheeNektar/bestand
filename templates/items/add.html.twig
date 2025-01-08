@@ -79,16 +79,16 @@
                             <td>{{ item.category.name }}</td>
                             <td>{{ item.size }}</td>
                             <td>
-                                <input name="quantity[{{ item.id }}]" type="number" class="form-control" required />
+                                <input name="quantity[{{ item.id }}]" type="number" class="form-control" value="0" required />
                             </td>
                             <td>{{ item.price }}</td>
                             <td>
                                 <button
-                                        class="btn btn-danger"
-                                        type="button"
-                                        onclick="prepareRemoval(this)"
+                                    class="btn btn-danger"
+                                    type="button"
+                                    onclick="prepareRemoval(this)"
                                 >
-                                    <input name="delete[]" type="hidden" value="yes" disabled />
+                                    <input name="delete[{{ item.id }}]" type="hidden" value="yes" disabled />
                                     <i class="bi bi-bag-x"></i>
                                 </button>
                             </td>

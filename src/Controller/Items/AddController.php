@@ -29,7 +29,7 @@ final class AddController extends AbstractController
 
             $this->em->beginTransaction();
 
-            foreach ($data['delete'] ?? [] as $id) {
+            foreach ($data['delete'] ?? [] as $id => $yes) {
                 if ($item = $this->itemRepository->find($id)) {
                     $this->em->remove($item);
                 }
