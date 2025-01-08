@@ -29,41 +29,38 @@ final class AddController extends AbstractController
             $rows = count($data['number'] ?? []);
             $toDelete = count($data['delete'] ?? []);
 
-            try {
-                $this->em->beginTransaction();
+            $this->em->beginTransaction();
 
-                for ($i = 0; $i < $toDelete; $i++) {
-                    if ($item = $this->itemRepository->findOneBy(['number' => $data['number'][$i]])) {
-                        $this->em->remove($item);
-                    }
+            for ($i = 0; $i < $toDelete; $i++) {
+                if ($item = $this->itemRepository->find($data['delete'][$i])) {
+                    $this->em->remove($item);
                 }
-
-                for ($i = 0; $i < $rows; $i++) {
-                    $item = $this->itemRepository->findOneBy(['number' => $data['number'][$i]]);
-
-                    if ($item) {
-                        $item->quantity += (int) $data['quantity'][$i];
-                    } else {
-                        $this->em->persist(
-                            new Item(
-                                number: $data['number'][$i],
-                                image: $data['image'][$i],
-                                quantity: (int) $data['quantity'][$i],
-                                category: $this->categoryRepository->find($data['category'][$i]),
-                                size: $data['size'][$i],
-                                price: (float) $data['price'][$i],
-                            )
-                        );
-                    }
-                }
-
-                $this->em->commit();
-                $this->em->flush();
-
-                return $this->redirectToRoute('items.list');
-            } catch (\Throwable $e) {
-                $this->em->rollback();
             }
+
+            for ($i = 0; $i < $rows; $i++) {
+                $item = $this->itemRepository->findOneBy(['number' => $data['number'][$i]]);
+
+                if ($item) {
+                    $item->quantity += (int) $data['quantity'][$i];
+                } else {
+                    $this->em->persist(
+                        new Item(
+                            number: $data['number'][$i],
+                            image: $data['image'][$i],
+                            quantity: (int) $data['quantity'][$i],
+                            category: $this->categoryRepository->find($data['category'][$i]),
+                            size: $data['size'][$i],
+                            price: (float) $data['price'][$i],
+                            name: $data['name'][$i],
+                        )
+                    );
+                }
+            }
+
+            $this->em->commit();
+            $this->em->flush();
+
+            return $this->redirectToRoute('items.list');
         }
 
         return $this->render(
