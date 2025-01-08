@@ -25,10 +25,18 @@ final class AddController extends AbstractController
     {
         if ($request->isMethod(Request::METHOD_POST)) {
             $data = $request->request->all();
-            $rows = count(current($data));
+
+            $rows = count($data['number'] ?? []);
+            $toDelete = count($data['delete'] ?? []);
 
             try {
                 $this->em->beginTransaction();
+
+                for ($i = 0; $i < $toDelete; $i++) {
+                    if ($item = $this->itemRepository->findOneBy(['number' => $data['number'][$i]])) {
+                        $this->em->remove($item);
+                    }
+                }
 
                 for ($i = 0; $i < $rows; $i++) {
                     $item = $this->itemRepository->findOneBy(['number' => $data['number'][$i]]);

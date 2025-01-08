@@ -30,6 +30,8 @@ class Item
         public ?string $size = null,
         #[ORM\Column]
         public float $price = 0,
+        #[ORM\Column(length: 255)]
+        public ?string $name = null,
     ) {
     }
 
@@ -38,6 +40,7 @@ class Item
         return $this->number === $other->number
             && $this->category?->id === $other->category?->id
             && $this->size === $other->size
-            && $this->price === $other->price;
+            && $this->price === $other->price
+            && $this->name === $other->name;
     }
 }
