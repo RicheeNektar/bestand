@@ -43,17 +43,30 @@
 
     <div class="container mt-3">
         <form method="post" enctype="multipart/form-data">
-            <table class="table table-striped align-middle">
+            <div class="btn-group">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-floppy2"></i>
+                </button>
+                <button class="btn btn-secondary" type="button" onclick="addItemToList()">
+                    <i class="bi bi-bag-plus"></i>
+                </button>
+            </div>
+            <div class="float-end">
+                <a class="btn btn-primary" href="{{ url('categories.manage') }}">
+                    Kategorien verwalten
+                </a>
+            </div>
+            <table class="table table-striped align-middle mt-2">
                 <thead>
                     <tr>
-                        <th scope="col">Bild URL</th>
+                        <th scope="col">Abbildung</th>
                         <th scope="col">Bezeichnung</th>
                         <th scope="col">Mouser-Nr.</th>
                         <th scope="col">Kategorie</th>
                         <th scope="col">Bauart</th>
                         <th scope="col">Bestand +/-</th>
                         <th scope="col">Einzelpreis</th>
-                        <th></th>
+                        <th scope="col">Löschen</th>
                     </tr>
                 </thead>
                 <tbody id="list">
@@ -96,19 +109,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <div class="btn-group">
-                <button class="btn btn-primary" type="submit">
-                    <i class="bi bi-floppy2"></i>
-                </button>
-                <button class="btn btn-secondary" type="button" onclick="addItemToList()">
-                    <i class="bi bi-bag-plus"></i>
-                </button>
-            </div>
-            <div class="float-end">
-                <a class="btn btn-primary" href="{{ url('categories.manage') }}">
-                    Kategorien verwalten
-                </a>
-            </div>
         </form>
     </div>
     <script>
