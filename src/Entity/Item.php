@@ -16,7 +16,7 @@ class Item
             ORM\Column,
         ]
         public ?int $id = null,
-        #[ORM\Column(length: 32)]
+        #[ORM\Column(length: 256)]
         public ?string $number = null,
         #[ORM\Column(length: 2 ** 24 - 1)]
         public string $image = '',

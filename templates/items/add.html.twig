@@ -121,7 +121,7 @@
             const t = template.content.cloneNode(true);
             t.querySelectorAll('input').forEach(input => input.name = input.name.replace(/(\w+)\[\]/, `$1[${id}]`));
             t.querySelectorAll('select').forEach(input => input.name = input.name.replace(/(\w+)\[\]/, `$1[${id}]`));
-            list.appendChild(t);
+            list.prepend(t);
         }
 
         function prepareRemoval(bt) {
