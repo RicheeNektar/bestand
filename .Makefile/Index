@@ -1,0 +1,3 @@
+include .Makefile/Help
+include .Makefile/Docker
+include .Makefile/App
