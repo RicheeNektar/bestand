@@ -47,13 +47,13 @@ final class AddController extends AbstractController
                     $file = $images[$id];
                     $this->em->persist(
                         new Item(
+                            name: $data['name'][$id],
                             number: $data['number'][$id],
-                            image: base64_encode($file->getContent()),
                             quantity: (int) $quantity,
                             category: $this->categoryRepository->find($data['category'][$id]),
                             size: $data['size'][$id],
                             price: (float) $data['price'][$id],
-                            name: $data['name'][$id],
+                            image: base64_encode($file->getContent()),
                             imageType: $file->getMimeType(),
                         )
                     );

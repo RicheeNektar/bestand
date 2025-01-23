@@ -2,24 +2,22 @@
 
 declare(strict_types=1);
 
-namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20250106221236 extends AbstractMigration
+final class Version20250116223005 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'feat: Bauart + Preis';
+        return 'Increase item number length';
     }
 
     public function up(Schema $schema): void
     {
         $this->addSql(<<<sql
             ALTER TABLE item
-                ADD size VARCHAR(32) NOT NULL,
-                ADD price FLOAT NOT NULL
+                CHANGE number number VARCHAR(256) NOT NULL
         sql);
     }
 
@@ -27,8 +25,7 @@ final class Version20250106221236 extends AbstractMigration
     {
         $this->addSql(<<<sql
             ALTER TABLE item
-                DROP size,
-                DROP price
+                CHANGE number number VARCHAR(32) NOT NULL
         sql);
     }
 }

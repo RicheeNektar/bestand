@@ -1,7 +1,7 @@
 .PHONY: migrate
 migration: ## Migrates DB up to latest version
-	docker compose exec php bin/console doctrine:migration:migrate
+	$(DOCKER_CMD) bin/console doctrine:migration:migrate
 
 .PHONY: generate-migration
 migration-generate: ## Generates a new migration
-	docker compose exec php bin/console doctrine:migration:generate
+	$(DOCKER_CMD) bin/console doctrine:migration:generate

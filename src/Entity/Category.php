@@ -15,7 +15,8 @@ class Category
             ORM\Column,
         ]
         public ?int $id = null,
-        #[ORM\Column(length: 255)]
+
+        #[ORM\Column(length: 256)]
         public string $name = '',
     ) {
     }
