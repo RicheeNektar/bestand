@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
+use App\Repository\SizeRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
-class Category
+#[ORM\Entity(repositoryClass: SizeRepository::class)]
+class Size
 {
     public function __construct(
         #[
@@ -25,7 +25,7 @@ class Category
     #[
         ORM\OneToMany(
             targetEntity: Item::class,
-            mappedBy: 'category',
+            mappedBy: 'size',
             orphanRemoval: true
         )
     ]

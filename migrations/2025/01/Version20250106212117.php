@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -30,12 +31,5 @@ final class Version20250106212117 extends AbstractMigration
             ALTER TABLE item
                 ADD CONSTRAINT fk_item_category_id_category_id FOREIGN KEY (category_id) REFERENCES category (id)
         sql);
-    }
-
-    public function down(Schema $schema): void
-    {
-        $this->addSql('ALTER TABLE item DROP FOREIGN KEY fk_item_category_id_category_id');
-        $this->addSql('DROP TABLE category');
-        $this->addSql('DROP TABLE item');
     }
 }

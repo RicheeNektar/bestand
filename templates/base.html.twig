@@ -20,24 +20,26 @@
     </head>
 
     <body data-bs-theme="dark">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        {% for l in ['items.list', 'items.add', 'categories.manage'] %}
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link{% if app.current_route == l %} active{% endif %}"
-                                    href="{{ url(l) }}"
-                                >
-                                    {{ l | trans }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
+        {% if app.request.server.get('HTTP_SEC_FETCH_DEST') != 'iframe' %}
+            {% include 'menu.html.twig' %}
+        {% endif %}
+        <div id="loading" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="spinner-border"></div>
                 </div>
             </div>
-        </nav>
+        </div>
         {% block body %}{% endblock %}
+        <script>
+            const modal = document.getElementById('loading');
+
+            function showLoading() {
+                modal.classList.add('show', 'd-block');
+            }
+            function hideLoading() {
+                modal.classList.remove('show', 'd-block');
+            }
+        </script>
     </body>
 </html>

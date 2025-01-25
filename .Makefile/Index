@@ -1,8 +1,0 @@
-UID = $(id -u)
-GID = $(id -g)
-
-DOCKER_CMD = docker compose exec -u $(UID):$(GID) php
-
-include .Makefile/Help
-include .Makefile/Docker
-include .Makefile/App

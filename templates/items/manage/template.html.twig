@@ -1,0 +1,84 @@
+<template id="row">
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col col-1 text-center">
+                <input
+                    name="image[]"
+                    type="file"
+                    class="d-none"
+                    accept="image/*"
+                    maxlength="{{ 2**24-1 }}"
+                    onchange="this.parentNode.querySelector('button').className=`btn btn-${this.value ? 'success' : 'primary'}`"
+                    required
+                />
+                <button
+                    class="btn btn-primary"
+                    onclick="this.parentNode.querySelector('input').click()"
+                    type="button"
+                >
+                    <i class="bi bi-file-earmark-image"></i>
+                </button>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <span class="col badge bg-secondary-subtle">
+                        {{ 'item.name' | trans }}
+                    </span>
+                </div>
+                <div class="row">
+                    <input name="name[]" class="col form-control" required />
+                </div>
+                <div class="row">
+                    <span class="col badge bg-secondary-subtle">
+                        {{ 'item.category' | trans }}
+                    </span>
+                    <span class="col badge bg-secondary-subtle">
+                        {{ 'item.size' | trans }}
+                    </span>
+                </div>
+                <div class="row">
+                    <input name="category[]" class="col form-control" list="categories" required />
+                    <input name="size[]" class="col form-control" list="sizes" required />
+                </div>
+            </div>
+            <div class="col col-3">
+                <div class="row">
+                    <span class="badge bg-secondary-subtle">
+                        {{ 'item.retailer' | trans }}
+                    </span>
+                </div>
+                <div class="row">
+                    <input name="retailer[]" class="col form-control" list="retailers" required />
+                </div>
+                <div class="row">
+                    <span class="badge bg-secondary-subtle">
+                        {{ 'item.link' | trans }}
+                    </span>
+                </div>
+                <div class="row">
+                    <input name="link[]" type="url" class="col form-control" required />
+                </div>
+            </div>
+            <div class="col col-2">
+                <div class="row">
+                    <span class="col badge bg-secondary-subtle">
+                        {{ 'item.price' | trans }}&nbsp;(&euro;)
+                    </span>
+                </div>
+                <div class="row">
+                    <input name="price[]" type="number" step="any" class="col form-control" required />
+                </div>
+            </div>
+            <div class="col col-1 text-center">
+                <button
+                    class="btn btn-danger"
+                    type="button"
+                    onclick="prepareRemoval(this)"
+                >
+                    <input name="delete[]" type="hidden" value="yes" disabled />
+                    <i class="bi bi-bag-x"></i>
+                </button>
+            </div>
+        </div>
+    </li>
+</template>

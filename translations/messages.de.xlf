@@ -5,49 +5,61 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="r4kWO9L" resname="Ascending">
-        <source>Ascending</source>
-        <target>Aufsteigend</target>
+      <trans-unit id="CLyNHtD" resname="categories">
+        <source>categories</source>
+        <target>Kategorien</target>
       </trans-unit>
-      <trans-unit id="hDiutH8" resname="Descending">
-        <source>Descending</source>
-        <target>Absteigend</target>
+      <trans-unit id="QYpQDLT" resname="retailers">
+        <source>retailers</source>
+        <target>Händler</target>
       </trans-unit>
-      <trans-unit id="37wivZ3" resname="ID">
-        <source>ID</source>
-        <target>ID</target>
+      <trans-unit id="S2lruTF" resname="sizes">
+        <source>sizes</source>
+        <target>Baugrößen</target>
       </trans-unit>
-      <trans-unit id="zZCzfg2" resname="Number">
-        <source>Number</source>
-        <target>Mouser Nr.</target>
+      <trans-unit id="iMY0_do" resname="item.name">
+        <source>item.name</source>
+        <target>Bezeichnung</target>
       </trans-unit>
-      <trans-unit id="XGlygks" resname="Quantity">
-        <source>Quantity</source>
-        <target>Bestand</target>
-      </trans-unit>
-      <trans-unit id="tceoGZr" resname="Category">
-        <source>Category</source>
+      <trans-unit id="m3VMjjI" resname="item.category">
+        <source>item.category</source>
         <target>Kategorie</target>
       </trans-unit>
-      <trans-unit id="5gRL0E1" resname="Size">
-        <source>Size</source>
-        <target>Bauart</target>
+      <trans-unit id="gFfDcOp" resname="item.size">
+        <source>item.size</source>
+        <target>Baugröße</target>
       </trans-unit>
-      <trans-unit id="4CMvZd0" resname="Price">
-        <source>Price</source>
-        <target>Einzelpreis</target>
+      <trans-unit id="RyGc3sI" resname="item.price">
+        <source>item.price</source>
+        <target>Stückpreis (€)</target>
       </trans-unit>
-      <trans-unit id="KqNrtwP" resname="items.list">
-        <source>items.list</source>
+      <trans-unit id="BogBP2G" resname="item.retailer">
+        <source>item.retailer</source>
+        <target>Händler</target>
+      </trans-unit>
+      <trans-unit id="h32BOXO" resname="item.link">
+        <source>item.link</source>
+        <target>Link</target>
+      </trans-unit>
+      <trans-unit id="XilY6iV" resname="in-use">
+        <source>in-use</source>
+        <target>Noch in Verwendung</target>
+      </trans-unit>
+      <trans-unit id="item.quantity" resname="item.quantity">
+        <source>item.quantity</source>
         <target>Bestand</target>
       </trans-unit>
-      <trans-unit id="items.add" resname="items.add">
-        <source>items.add</source>
-        <target>Ein-/Ausbuchen</target>
+      <trans-unit id="item.quantity.diff" resname="item.quantity.diff">
+        <source>item.quantity.diff</source>
+        <target>Bestand +/-</target>
       </trans-unit>
-      <trans-unit id="zQyXhjh" resname="categories.manage">
-        <source>categories.manage</source>
-        <target>Kategorien</target>
+      <trans-unit id="item.description.discard" resname="item.description.discard">
+        <source>item.description.discard</source>
+        <target>Änderung der Beschreibung verwerfen?</target>
+      </trans-unit>
+      <trans-unit id="orphaned_info" resname="orphaned_info">
+        <source>orphaned_info</source>
+        <target>Nicht verwendete Einträge werden automatisch bereinigt.</target>
       </trans-unit>
     </body>
   </file>

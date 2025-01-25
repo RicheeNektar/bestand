@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="col m-3">
+        <div class="row mt-3">
+            {% include 'items/index/search.html.twig' %}
+        </div>
+
+        <div class="row">
+            <form id="item-form" class="d-flex" method="post">
+                <div class="col me-3">
+                    <ul class="list-group" id="list">
+                        {% for item in items %}
+                            {% include 'items/index/item.html.twig' with {item:item} %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col col-3 d-none">
+                    <textarea x-original="" id="description" class="form-control"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const textArea = document.getElementById('description');
+
+        function showDescription(button, item) {
+            document.querySelectorAll('button[onclick*="showDescription"]').forEach(
+                e => e.querySelector('i').className = 'bi bi-file-earmark-text-fill',
+            );
+
+            if (!textArea.getAttribute('x-item')) {
+                button.querySelector('i').className = 'bi bi-pencil-fill';
+                loadDescription(item);
+            } else {
+                if (textArea.value !== textArea.getAttribute('x-original')) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', `/api/item/${textArea.getAttribute('x-item')}/description`);
+                    const form = new FormData();
+                    form.set('description', textArea.value);
+                    xhr.send(form);
+                }
+
+                if (parseInt(textArea.getAttribute('x-item')) === item) {
+                    textArea.value = '';
+                    textArea.setAttribute('x-original', '');
+                    textArea.setAttribute('x-item', '');
+                    textArea.parentNode.classList.add('d-none');
+                } else {
+                    button.querySelector('i').className = 'bi bi-pencil-fill';
+                    loadDescription(item);
+                }
+            }
+        }
+
+        function loadDescription(item) {
+            showLoading();
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/item/${item}/description`);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    textArea.value = xhr.responseText;
+                    textArea.setAttribute('x-original', xhr.responseText);
+                    textArea.setAttribute('x-item', item);
+                    textArea.parentNode.classList.remove('d-none');
+                    hideLoading();
+                }
+            };
+            xhr.send();
+        }
+    </script>
+{% endblock %}

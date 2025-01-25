@@ -1,7 +1,5 @@
-.PHONY: start
 start: ## Starts docker containers
 	docker compose up -d
 
-.PHONY: stop
 stop: ## Stops docker containers
 	docker compose down --remove-orphans

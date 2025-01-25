@@ -1,0 +1,98 @@
+<li class="list-group-item">
+    <div class="row">
+        <div class="col col-1 d-flex justify-content-center align-items-center">
+            <img
+                height="64px"
+                style="aspect-ratio: 1"
+                src="{{ url('images.get', {id: item.image.id}) }}"
+                alt="product image"
+            />
+        </div>
+        <div class="col">
+            <div class="row">
+                <span class="col badge bg-secondary-subtle">
+                    {{ 'item.name' | trans }}
+                </span>
+            </div>
+            <div class="row mb-3">
+                <span class="col">
+                    {{ item.name }}
+                </span>
+            </div>
+            <div class="row">
+                <span class="col badge bg-secondary-subtle">
+                    {{ 'item.category' | trans }}
+                </span>
+                <span class="col badge bg-secondary-subtle">
+                    {{ 'item.retailer' | trans }}
+                </span>
+            </div>
+            <div class="row">
+                <span class="col">
+                    {{ item.category.name }}
+                </span>
+                <span class="col">
+                    {{ item.retailer.name }}
+                </span>
+            </div>
+        </div>
+        <div class="col col-3 border-start">
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <span class="col badge bg-secondary-subtle">
+                            {{ 'item.price' | trans }}
+                        </span>
+                    </div>
+                    <div class="row text-end mb-3">
+                        <span class="col">
+                            {{ item.price|number_format(4, ',', '.') }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <span class="col badge bg-secondary-subtle">
+                            {{ 'item.quantity' | trans }}
+                        </span>
+                    </div>
+                    <div class="row text-end">
+                        <span class="col">
+                            {{ item.quantity }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <span class="col badge bg-secondary-subtle">
+                            {{ 'item.quantity.diff' | trans }}
+                        </span>
+                    </div>
+                    <div class="row text-end">
+                        <input
+                            class="col form-control"
+                            name="quantity[{{ item.id }}]"
+                            type="number"
+                            step="1"
+                            value="0"
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-1 d-flex justify-content-center align-items-center">
+            <div class="btn-group-vertical">
+                <button class="btn btn-primary" type="button" onclick="showDescription(this, {{ item.id }})">
+                    <i class="bi bi-file-earmark-text-fill"></i>
+                </button>
+
+                <a class="btn btn-secondary" href="{{ item.link }}" target="_blank">
+                    <i class="bi bi-box-arrow-up-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</li>

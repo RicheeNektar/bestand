@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
+use App\Repository\RetailerRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
-class Category
+#[ORM\Entity(repositoryClass: RetailerRepository::class)]
+class Image
 {
     public function __construct(
         #[
@@ -18,14 +18,20 @@ class Category
         public ?int $id = null,
 
         #[ORM\Column(length: 0xFF)]
-        public string $name = '',
+        public ?string $type = null,
+
+        #[ORM\Column(length: 0xFFFFFF)]
+        public string $data = '',
+
+        #[ORM\Column(length: 0xFF)]
+        public string $hash = '',
     ) {
     }
 
     #[
         ORM\OneToMany(
             targetEntity: Item::class,
-            mappedBy: 'category',
+            mappedBy: 'image',
             orphanRemoval: true
         )
     ]

@@ -7,20 +7,20 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20250123194926 extends AbstractMigration
+final class Version20250123212143 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Unify db lengths';
+        return 'Add description';
     }
 
     public function up(Schema $schema): void
     {
         $this->addSql(<<<sql
             ALTER TABLE item
-                CHANGE image_type image_type VARCHAR(255) NOT NULL,
-                CHANGE size size VARCHAR(255) NOT NULL,
-                CHANGE number number VARCHAR(255) NOT NULL
+                ADD description TEXT NOT NULL,
+                ADD link TINYTEXT NOT NULL,
+                DROP number
         sql);
     }
 }

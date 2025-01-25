@@ -1,0 +1,43 @@
+<form class="col">
+    <div class="input-group mb-3">
+        <a class="btn btn-primary" href="{{ url('items.manage') }}">
+            <i class="bi bi-gear"></i>
+        </a>
+        <input
+            name="query"
+            class="form-control"
+            placeholder="{{ 'search' | trans({}, 'search') }}"
+            value="{{ query }}"
+        />
+        <select name="orderBy" class="form-select">
+            {% for sort in enum_cases("\\App\\Enum\\ItemSortEnum") %}
+                <option
+                    value="{{ sort.value }}"
+                    {% if sort.value == orderBy.value %}
+                        selected
+                    {% endif %}
+                >
+                    {{ sort.name | trans({}, 'search') }}
+                </option>
+            {% endfor %}
+        </select>
+        <select name="orderByDir" class="form-select">
+            {% for order in enum_cases("\\App\\Enum\\SortOrderEnum") %}
+                <option
+                    value="{{ order.value }}"
+                    {% if order.value == orderByDir.value %}
+                        selected
+                    {% endif %}
+                >
+                    {{ order.name | trans({}, 'search') }}
+                </option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-primary" type="submit" name="search" value="1">
+            <i class="bi bi-search"></i>
+        </button>
+        <button id="save" class="btn btn-primary" type="button" onclick="document.getElementById('item-form').submit()">
+            <i class="bi bi-floppy2-fill"></i>
+        </button>
+    </div>
+</form>

@@ -4,10 +4,9 @@ namespace App\Enum;
 
 enum ItemSortEnum: string
 {
-    case ID = 'id';
-    case Number = 'number';
-    case Quantity = 'quantity';
-    case Category = 'categories';
-    case Size = 'size';
-    case Price = 'price';
+    case ID = 'i.id';
+    case Quantity = 'i.quantity';
+    case Category = 'c.name';
+    case Size = 's.name';
+    case Price = 'i.price';
 }

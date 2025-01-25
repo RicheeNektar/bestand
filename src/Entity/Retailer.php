@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
+use App\Repository\RetailerRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
-class Category
+#[ORM\Entity(repositoryClass: RetailerRepository::class)]
+class Retailer
 {
     public function __construct(
         #[
@@ -25,8 +25,8 @@ class Category
     #[
         ORM\OneToMany(
             targetEntity: Item::class,
-            mappedBy: 'category',
-            orphanRemoval: true
+            mappedBy: 'retailer',
+            orphanRemoval: true,
         )
     ]
     public Collection $items;

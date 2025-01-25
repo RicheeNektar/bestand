@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <form class="container mt-3" method="post">
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle-fill"></i>
+            {{ 'orphaned_info' | trans }}
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <h3>{{ 'categories' | trans }}</h3>
+                {% include 'manage/entries.html.twig' with {entries: categories, name: 'category'} %}
+            </div>
+            <div class="col">
+                <h3>{{ 'retailers' | trans }}</h3>
+                {% include 'manage/entries.html.twig' with {entries: retailers, name: 'retailer'} %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>{{ 'sizes' | trans }}</h3>
+                {% include 'manage/entries.html.twig' with {entries: sizes, name: 'size'} %}
+            </div>
+        </div>
+    </form>
+{% endblock %}

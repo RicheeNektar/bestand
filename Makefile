@@ -1,1 +1,1 @@
-include .Makefile/Index
+include Makefile.d/*.mk

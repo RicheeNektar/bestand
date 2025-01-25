@@ -1,0 +1,29 @@
+<ul class="list-group">
+    {% for entry in entries %}
+        <li class="list-group-item ">
+            <div class="row align-items-center">
+                <div class="col">
+                    {{ entry.name }}
+                    {% if entry.referenced %}
+                        <span class="badge bg-warning text-bg-warning">
+                            {{ 'in-use' | trans }}
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="col-auto">
+                    <button
+                        class="btn btn-danger float-end"
+                        type="submit"
+                        name="{{ name }}"
+                        value="{{ entry.id }}"
+                        {% if entry.referenced %}
+                            disabled
+                        {% endif %}
+                    >
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

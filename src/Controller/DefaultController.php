@@ -11,6 +11,6 @@ final class DefaultController extends AbstractController
 {
     public function __invoke(): Response
     {
-        return $this->redirectToRoute('items.list');
+        return $this->redirectToRoute('items');
     }
 }

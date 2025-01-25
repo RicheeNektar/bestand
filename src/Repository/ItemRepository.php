@@ -21,12 +21,13 @@ final class ItemRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('i')
             ->innerJoin('i.category', 'c')
-            ->where('i.number LIKE :query')
+            ->innerJoin('i.size', 's')
+            ->where('i.description LIKE :query')
             ->orWhere('i.name LIKE :query')
-            ->orWhere('i.size LIKE :query')
+            ->orWhere('s.name LIKE :query')
             ->orWhere('c.name LIKE :query')
             ->setParameter('query', "%$query%")
-            ->orderBy("i.$sortBy->value", $sortOrder->value)
+            ->orderBy($sortBy->value, $sortOrder->value)
             ->getQuery()
             ->getResult();
     }

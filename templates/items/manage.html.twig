@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <datalist id="categories">
+        {% for category in categories %}
+            <option value="{{ category.name }}"></option>
+        {% endfor %}
+    </datalist>
+    <datalist id="retailers">
+        {% for retailer in retailers %}
+            <option value="{{ retailer.name }}"></option>
+        {% endfor %}
+    </datalist>
+    <datalist id="sizes">
+        {% for size in sizes %}
+            <option value="{{ size.name }}"></option>
+        {% endfor %}
+    </datalist>
+
+    {% include 'items/manage/template.html.twig' %}
+
+    <div class="container mt-3">
+        <div class="row">
+            <form method="post" enctype="multipart/form-data">
+                <div class="btn-group mb-3">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-floppy2"></i>
+                    </button>
+                    <button class="btn btn-secondary" type="button" onclick="addItemToList()">
+                        <i class="bi bi-bag-plus"></i>
+                    </button>
+                </div>
+
+                <ul class="list-group" id="list">
+                    {% for item in items %}
+                        {% include 'items/manage/item.html.twig' with {item:item} %}
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
+    </div>
+    <script>
+        const template = document.getElementById('row');
+        const list = document.getElementById('list');
+
+        {% verbatim %}
+        function addItemToList() {
+            const id = `tmp-${new Date().getTime()}`;
+            const t = template.content.cloneNode(true);
+            t.querySelectorAll('input').forEach(input => input.name = input.name.replace(/(\w+)\[\]/, `$1[${id}]`));
+            t.querySelectorAll('select').forEach(input => input.name = input.name.replace(/(\w+)\[\]/, `$1[${id}]`));
+            list.prepend(t);
+        }
+
+        function prepareRemoval(bt) {
+            const deleteInput = bt.querySelector('input');
+            if (deleteInput.name.match(/\[tmp-\d+\]/)) {
+                bt.parentNode.parentNode.parentNode.remove();
+            } else {
+                bt.parentNode.parentNode.parentNode.style.display = 'none';
+                deleteInput.disabled = false;
+            }
+        }
+        {% endverbatim %}
+    </script>
+{% endblock %}
