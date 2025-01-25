@@ -29,7 +29,7 @@ final class Version20250123201744 extends AbstractMigration
 
         $this->addSql(<<<sql
             INSERT IGNORE INTO image (data, type, hash)
-            SELECT image, image_type, MD5(CONCAT(image_type,image))
+            SELECT image, image_type, MD5(CONCAT(image_type, image))
             FROM item
         sql);
 
@@ -40,12 +40,12 @@ final class Version20250123201744 extends AbstractMigration
 
         $this->addSql(<<<sql
             UPDATE item it
-            SET it.image = (
+            SET it.image_id = (
                 SELECT im.id
                 FROM image im
-                WHERE MD5(im.data) = MD5(it.image)
+                WHERE im.hash = MD5(CONCAT(it.image_type, it.image))
             )
-            WHERE it.image = 0
+            WHERE it.image_id = 0
         sql);
 
         $this->addSql(<<<sql
