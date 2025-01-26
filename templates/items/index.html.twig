@@ -101,19 +101,16 @@
         function loadDescription(item) {
             showLoading();
 
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', `/api/item/${item}/description`);
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    textArea.value = xhr.responseText;
-                    textArea.setAttribute('x-original', xhr.responseText);
+            fetch(`/api/item/${item}/description`)
+                .then(r => r.text())
+                .then(r => {
+                    textArea.value = r;
+                    textArea.setAttribute('x-original', r);
                     textArea.setAttribute('x-item', item);
                     syncToModal();
                     hideLoading();
                     toggleDescription(true);
-                }
-            };
-            xhr.send();
+                });
         }
 
         function editDescription(button, item) {
@@ -128,11 +125,12 @@
                 loadDescription(item);
             } else {
                 if (textArea.value !== textArea.getAttribute('x-original')) {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', `/api/item/${textArea.getAttribute('x-item')}/description`);
                     const form = new FormData();
                     form.set('description', textArea.value);
-                    xhr.send(form);
+                    fetch(`/api/item/${textArea.getAttribute('x-item')}/description`, {
+                        method: 'POST',
+                        body: form,
+                    });
                 }
 
                 if (parseInt(textArea.getAttribute('x-item')) === item) {
