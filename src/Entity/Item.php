@@ -23,7 +23,7 @@ class Item
         public ?string $link = '',
 
         #[ORM\Column(length: 0xFFFF)]
-        public ?string $description = null,
+        public ?string $description = '',
 
         #[
             ORM\ManyToOne(targetEntity: Category::class, cascade: ['all'], inversedBy: 'items'),

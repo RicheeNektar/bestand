@@ -1,26 +1,68 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <form class="container mt-3" method="post">
+    <div class="container mt-3">
         <div class="alert alert-info">
             <i class="bi bi-info-circle-fill"></i>
             {{ 'orphaned_info' | trans }}
         </div>
-        <div class="row mb-3">
-            <div class="col">
-                <h3>{{ 'categories' | trans }}</h3>
-                {% include 'manage/entries.html.twig' with {entries: categories, name: 'category'} %}
+        <form method="post">
+            <div class="d-none d-lg-block">
+                <div class="row mb-3">
+                    <div class="col">
+                        <h3>{{ 'categories' | trans }}</h3>
+                        {% include 'manage/entries.html.twig' with {entries: categories, name: 'category'} %}
+                    </div>
+                    <div class="col">
+                        <h3>{{ 'retailers' | trans }}</h3>
+                        {% include 'manage/entries.html.twig' with {entries: retailers, name: 'retailer'} %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h3>{{ 'sizes' | trans }}</h3>
+                        {% include 'manage/entries.html.twig' with {entries: sizes, name: 'size'} %}
+                    </div>
+                </div>
             </div>
-            <div class="col">
-                <h3>{{ 'retailers' | trans }}</h3>
-                {% include 'manage/entries.html.twig' with {entries: retailers, name: 'retailer'} %}
+            <div class="d-block d-lg-none accordion" id="acc">
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-categories">
+                            {{ 'categories' | trans }}
+                        </button>
+                    </h3>
+                    <div id="acc-categories" class="accordion-collapse collapse" data-bs-parent="#acc">
+                        <div class="accordion-body">
+                            {% include 'manage/entries.html.twig' with {entries: categories, name: 'category'} %}
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-retailers">
+                            {{ 'retailers' | trans }}
+                        </button>
+                    </h3>
+                    <div id="acc-retailers" class="accordion-collapse collapse" data-bs-parent="#acc">
+                        <div class="accordion-body">
+                            {% include 'manage/entries.html.twig' with {entries: retailers, name: 'retailer'} %}
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-sizes">
+                            {{ 'sizes' | trans }}
+                        </button>
+                    </h3>
+                    <div id="acc-sizes" class="accordion-collapse collapse" data-bs-parent="#acc">
+                        <div class="accordion-body">
+                            {% include 'manage/entries.html.twig' with {entries: sizes, name: 'size'} %}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h3>{{ 'sizes' | trans }}</h3>
-                {% include 'manage/entries.html.twig' with {entries: sizes, name: 'size'} %}
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 {% endblock %}

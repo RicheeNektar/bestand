@@ -1,7 +1,7 @@
 <template id="row">
     <li class="list-group-item">
         <div class="row">
-            <div class="col col-1 text-center">
+            <div class="col-lg col-lg-1 d-flex justify-content-center align-items-center mb-3 mb-lg-0">
                 <input
                     name="image[]"
                     type="file"
@@ -19,7 +19,7 @@
                     <i class="bi bi-file-earmark-image"></i>
                 </button>
             </div>
-            <div class="col">
+            <div class="col-lg mb-3 mb-lg-0">
                 <div class="row">
                     <span class="col badge bg-secondary-subtle">
                         {{ 'item.name' | trans }}
@@ -41,7 +41,7 @@
                     <input name="size[]" class="col form-control" list="sizes" required />
                 </div>
             </div>
-            <div class="col col-3">
+            <div class="col-lg col-lg-3 mb-3 mb-lg-0">
                 <div class="row">
                     <span class="badge bg-secondary-subtle">
                         {{ 'item.retailer' | trans }}
@@ -59,7 +59,7 @@
                     <input name="link[]" type="url" class="col form-control" required />
                 </div>
             </div>
-            <div class="col col-2">
+            <div class="col-lg col-lg-2 mb-3 mb-lg-0">
                 <div class="row">
                     <span class="col badge bg-secondary-subtle">
                         {{ 'item.price' | trans }}&nbsp;(&euro;)
@@ -69,7 +69,7 @@
                     <input name="price[]" type="number" step="any" class="col form-control" required />
                 </div>
             </div>
-            <div class="col col-1 text-center">
+            <div class="col-lg col-lg-1 d-flex justify-content-center align-items-center">
                 <button
                     class="btn btn-danger"
                     type="button"

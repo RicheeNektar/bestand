@@ -3,12 +3,13 @@
         <li class="list-group-item ">
             <div class="row align-items-center">
                 <div class="col">
-                    {{ entry.name }}
                     {% if entry.referenced %}
-                        <span class="badge bg-warning text-bg-warning">
+                        <span class="badge bg-warning-subtle text-warning">
+                            <i class="bi bi-exclamation-triangle text-warning-emphasis"></i>
                             {{ 'in-use' | trans }}
                         </span>
                     {% endif %}
+                    {{ entry.name }}
                 </div>
                 <div class="col-auto">
                     <button

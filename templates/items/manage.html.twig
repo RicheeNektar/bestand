@@ -19,26 +19,25 @@
 
     {% include 'items/manage/template.html.twig' %}
 
-    <div class="container mt-3">
-        <div class="row">
-            <form method="post" enctype="multipart/form-data">
-                <div class="btn-group mb-3">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="bi bi-floppy2"></i>
-                    </button>
-                    <button class="btn btn-secondary" type="button" onclick="addItemToList()">
-                        <i class="bi bi-bag-plus"></i>
-                    </button>
-                </div>
-
-                <ul class="list-group" id="list">
-                    {% for item in items %}
-                        {% include 'items/manage/item.html.twig' with {item:item} %}
-                    {% endfor %}
-                </ul>
-            </form>
+    <div class="p-2 sticky-top bg-body-tertiary">
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="document.getElementById('manage').submit()">
+                <i class="bi bi-floppy2"></i>
+            </button>
+            <button class="btn btn-secondary" onclick="addItemToList()">
+                <i class="bi bi-bag-plus"></i>
+            </button>
         </div>
     </div>
+
+    <form id="manage" method="post" enctype="multipart/form-data">
+        <ul class="list-group" id="list">
+            {% for item in items %}
+                {% include 'items/manage/item.html.twig' with {item:item} %}
+            {% endfor %}
+        </ul>
+    </form>
+
     <script>
         const template = document.getElementById('row');
         const list = document.getElementById('list');

@@ -43,7 +43,7 @@
       </trans-unit>
       <trans-unit id="XilY6iV" resname="in-use">
         <source>in-use</source>
-        <target>Noch in Verwendung</target>
+        <target>Referenziert</target>
       </trans-unit>
       <trans-unit id="item.quantity" resname="item.quantity">
         <source>item.quantity</source>
