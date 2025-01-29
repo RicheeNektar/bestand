@@ -32,9 +32,7 @@
                     {{ item.category.name }}
                 </span>
                 <span class="col">
-                    {% if item.retailer.name is defined %}
-                        {{ item.retailer.name }}
-                    {% endif %}
+                    {{ item.retailer.name ?? '' }}
                 </span>
             </div>
         </div>

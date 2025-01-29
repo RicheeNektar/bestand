@@ -57,10 +57,6 @@
         <source>item.description.discard</source>
         <target>Änderung der Beschreibung verwerfen?</target>
       </trans-unit>
-      <trans-unit id="orphaned_info" resname="orphaned_info">
-        <source>orphaned_info</source>
-        <target>Nicht verwendete Einträge werden automatisch bereinigt.</target>
-      </trans-unit>
     </body>
   </file>
 </xliff>

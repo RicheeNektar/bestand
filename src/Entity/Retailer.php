@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\RetailerRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RetailerRepository::class)]
@@ -21,13 +20,4 @@ class Retailer
         public string $name = '',
     ) {
     }
-
-    #[
-        ORM\OneToMany(
-            targetEntity: Item::class,
-            mappedBy: 'retailer',
-            orphanRemoval: true,
-        )
-    ]
-    public Collection $items;
 }

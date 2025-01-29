@@ -41,8 +41,23 @@
     <script>
         const template = document.getElementById('row');
         const list = document.getElementById('list');
+        const toggledAttrib = 'x-editing';
 
         {% verbatim %}
+        function edit(bt) {
+            const btP = bt.parentNode.parentNode;
+
+            const editing = 'true' !== btP.getAttribute(toggledAttrib);
+            btP.setAttribute(toggledAttrib, editing);
+            btP.querySelectorAll('button[x-type="edit"]').forEach(b => b.classList[editing ? 'add' : 'remove']('active'));
+
+            const p = btP.parentNode;
+            p.querySelectorAll('input').forEach(i => i.disabled = !editing || i.name.includes('delete'));
+            const img = p.querySelector('img');
+            img.classList[editing ? 'add' : 'remove']('d-none');
+            img.parentNode.querySelector('button').classList[editing ? 'remove' : 'add']('d-none');
+        }
+
         function addItemToList() {
             const id = `tmp-${new Date().getTime()}`;
             const t = template.content.cloneNode(true);

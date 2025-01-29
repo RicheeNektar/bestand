@@ -26,19 +26,19 @@ class Item
         public ?string $description = '',
 
         #[
-            ORM\ManyToOne(targetEntity: Category::class, cascade: ['all'], inversedBy: 'items'),
+            ORM\ManyToOne(targetEntity: Category::class),
             ORM\JoinColumn(nullable: false),
         ]
         public ?Category $category = null,
 
         #[
-            ORM\ManyToOne(targetEntity: Size::class, cascade: ['all'], inversedBy: 'items'),
+            ORM\ManyToOne(targetEntity: Size::class),
             ORM\JoinColumn(nullable: false),
         ]
         public ?Size $size = null,
 
         #[
-            ORM\ManyToOne(targetEntity: Retailer::class, cascade: ['all'], inversedBy: 'items'),
+            ORM\ManyToOne(targetEntity: Retailer::class),
             ORM\JoinColumn(nullable: false),
         ]
         public ?Retailer $retailer = null,
@@ -50,7 +50,7 @@ class Item
         public int $quantity = 0,
 
         #[
-            ORM\ManyToOne(targetEntity: Image::class, cascade: ['all'], inversedBy: 'items'),
+            ORM\ManyToOne(targetEntity: Image::class),
             ORM\JoinColumn(nullable: false),
         ]
         public ?Image $image = null,

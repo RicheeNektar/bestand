@@ -36,25 +36,32 @@ final class ManageController extends AbstractController
     {
         if ($request->isMethod(Request::METHOD_POST)) {
             $data = $request->request->all();
-
             $images = $request->files->get('image');
 
-            foreach ($data['name'] ?? [] as $id => $quantity) {
-                $this->em->beginTransaction();
+            $this->em->beginTransaction();
 
+            foreach ($data['name'] ?? [] as $id => $quantity) {
                 /** @var File $file */
                 $file = $images[$id];
-
-                $image = $this->imageRepository->findOneBy([
-                    'hash' => $hash = md5(($mime = $file->getMimeType()) . ($content = base64_encode($file->getContent())))
-                ]) ?? new Image(type: $mime, data: $content, hash: $hash);
 
                 $retailer = $this->findOrCreateNamedEntity(Retailer::class, $data['retailer'][$id]);
                 $size = $this->findOrCreateNamedEntity(Size::class, $data['size'][$id]);
                 $category = $this->findOrCreateNamedEntity(Category::class, $data['category'][$id]);
 
-                $this->em->persist(
-                    new Item(
+                if ($item = $this->itemRepository->find($id)) {
+                    $item->link = $data['link'][$id];
+                    $item->name = $data['name'][$id];
+                    $item->category = $category;
+                    $item->size = $size;
+                    $item->retailer = $retailer;
+                    $item->price = (float)$data['price'][$id];
+                    $item->quantity = (int)$quantity;
+
+                    if ($file) {
+                        $item->image = $this->findOrCreateImage($file);
+                    }
+                } else {
+                    $item = new Item(
                         name: $data['name'][$id],
                         link: $data['link'][$id],
                         category: $category,
@@ -62,15 +69,12 @@ final class ManageController extends AbstractController
                         retailer: $retailer,
                         price: (float)$data['price'][$id],
                         quantity: (int)$quantity,
-                        image: $image,
-                    )
-                );
+                        image: $this->findOrCreateImage($file),
+                    );
+                }
 
-                $this->em->flush();
-                $this->em->commit();
+                $this->em->persist($item);
             }
-
-            $this->em->beginTransaction();
 
             foreach ($data['delete'] ?? [] as $id => $yes) {
                 if ($item = $this->itemRepository->find($id)) {
@@ -95,14 +99,26 @@ final class ManageController extends AbstractController
         );
     }
 
+    private function findOrCreateImage(File $file): Image
+    {
+        $image = $this->imageRepository->findOneBy([
+            'hash' => $hash = md5(($mime = $file->getMimeType()) . ($content = base64_encode($file->getContent())))
+        ]) ?? new Image(type: $mime, data: $content, hash: $hash);
+        $this->em->persist($image);
+        return $image;
+    }
+
     /** @param class-string $entityClass */
     private function findOrCreateNamedEntity(string $entityClass, string $name): object
     {
         preg_match('/\\\(\w+)$/i', strtolower($entityClass), $matches);
         $repo = "$matches[1]Repository";
 
-        return $this->$repo->findOneBy([
-            'name' => $value = $name
-        ]) ?? new $entityClass(name: $value);
+        $this->em->persist(
+            $v = $this->$repo->findOneBy([
+                'name' => $value = $name
+            ]) ?? new $entityClass(name: $value)
+        );
+        return $v;
     }
 }

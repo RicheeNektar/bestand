@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\SizeRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SizeRepository::class)]
@@ -21,13 +20,4 @@ class Size
         public string $name = '',
     ) {
     }
-
-    #[
-        ORM\OneToMany(
-            targetEntity: Item::class,
-            mappedBy: 'size',
-            orphanRemoval: true
-        )
-    ]
-    public Collection $items;
 }
