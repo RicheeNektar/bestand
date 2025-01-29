@@ -30,12 +30,14 @@
                     </ul>
                 </div>
                 <div class="col-lg col-lg-3 ms-1 me-1 d-none">
-                    <textarea x-original="" id="description" class="form-control" onchange="syncToModal()"></textarea>
+                    <textarea x-original="" id="description" class="form-control sticky-top" style="top: 3.4rem" onchange="syncToModal()"></textarea>
                 </div>
-                <div id="mobile-test" class="d-lg-none"></div>
             </form>
         </div>
     </div>
+
+    <div id="mobile-test" class="d-lg-none"></div>
+
     <script>
         const textArea = document.getElementById('description');
         const textAreaModal = new bootstrap.Modal(document.getElementById('description-modal'));
